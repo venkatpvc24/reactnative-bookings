@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {validate} from 'react-email-validator'
 
 import PVCButton from '../components/Button';
 import Logo from '../components/Logo';
@@ -8,7 +10,20 @@ import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
 import TextInput from '../components/TextInput';
 
+
 export default function LoginScreen(props) {
+  const [email, setEmail] = useState({value: '', error: ''});
+
+
+  const handleBlur = () => {
+    const isValid = validate(email.value);
+
+    if (!isValid) {
+      setEmail({...email, error: 'oops, need valid email address'});
+    }
+  };
+
+
   return (
     <View style={{padding: 30}}>
       <Logo />
@@ -21,9 +36,16 @@ export default function LoginScreen(props) {
           autoCompleteType="email"
           textContentType="emailAddress"
           keyboardType="email-address"
+          errorText={email.error}
+          onChangeText={txt =>
+            setEmail({value: txt, error: ''})
+          }
+          onBlur={handleBlur}
+          style={styles.input}
+          activeOutlineColor="red"
         />
         <TextInput label="Password" returnKeyType="done" secureTextEntry />
-
+        <Paragraph style={{textAlign: 'right'}} para="Forgot password?" />
         <PVCButton mode="contained">Login</PVCButton>
         <Paragraph para="Don't have an account?" />
         <PVCButton
@@ -39,5 +61,10 @@ export default function LoginScreen(props) {
 const styles = StyleSheet.create({
   forgotPassword: {
     alignItems: 'flex-end',
+  },
+  input: {
+    color: 'green',
+    marginBottom: 20,
+    borderBottomColor: 'red',
   },
 });

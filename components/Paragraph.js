@@ -1,11 +1,14 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 export default function Paragraph(props) {
   return (
-    <Text style={styles.paragraph} {...props}>
+    <View style={styles.paragraph}>
+    <Text>
       {props.para}
     </Text>
+    </View>
   );
 }
 
