@@ -4,11 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 export default function Paragraph(props) {
   return (
-    <View style={styles.paragraph}>
-    <Text>
-      {props.para}
-    </Text>
-    </View>
+    <Text style={styles.paragraph} {...props} />
   );
 }
 

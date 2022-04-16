@@ -45,9 +45,9 @@ export default function LoginScreen(props) {
           activeOutlineColor="red"
         />
         <TextInput label="Password" returnKeyType="done" secureTextEntry />
-        <Paragraph style={{textAlign: 'right'}} para="Forgot password?" />
+        <View style={{alignItems: 'flex-end'}}><Paragraph>Forgot password?</Paragraph></View>
         <PVCButton mode="contained">Login</PVCButton>
-        <Paragraph para="Don't have an account?" />
+        <Paragraph >Dont have an account? signup</Paragraph>
         <PVCButton
           mode="text"
           onPress={() => props.navigation.navigate('Signup')}>
