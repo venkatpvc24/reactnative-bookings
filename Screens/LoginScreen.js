@@ -10,9 +10,12 @@ import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
 import TextInput from '../components/TextInput';
 
+export function onLoggedIn(token) {}
+
 
 export default function LoginScreen(props) {
   const [email, setEmail] = useState({value: '', error: ''});
+  const [password, setPassword] = useState({value: '', error: ''});
 
 
   const handleBlur = () => {
@@ -44,7 +47,14 @@ export default function LoginScreen(props) {
           style={styles.input}
           activeOutlineColor="red"
         />
-        <TextInput label="Password" returnKeyType="done" secureTextEntry />
+        <TextInput 
+          label="Password" 
+          returnKeyType="done" 
+          secureTextEntry 
+          onChangeText={txt =>
+            setPassword({value: txt, error: ''})
+          }
+          />
         <View style={{alignItems: 'flex-end'}}><Paragraph>Forgot password?</Paragraph></View>
         <PVCButton mode="contained">Login</PVCButton>
         <Paragraph >Dont have an account? signup</Paragraph>
