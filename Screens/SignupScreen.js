@@ -1,11 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 import PVCButton from '../components/Button';
 import Logo from '../components/Logo';
 import TextInput from '../components/TextInput';
 import {onLoggedIn} from './LoginScreen';
+import Heading from '../components/Heading';
+import Background from '../components/Background';
 
 export default function SignupScreen(props) {
   const [email, setEmail] = useState('');
@@ -45,7 +53,13 @@ export default function SignupScreen(props) {
     });
   }
 
-  const submitHandler = () => {
+  const submitHandler = e => {
+    if (email === '' || name === '' || password === '') {
+      setError(true);
+      setMessage('require all fields');
+      return;
+    }
+
     fetchData()
       .then(res => {
         if (res.status !== 200) {
@@ -58,67 +72,77 @@ export default function SignupScreen(props) {
           console.log(message);
           onLoggedIn(res.token);
         }
-        if (isError) {
+        if (!isError) {
           props.navigation.navigate('Login');
         }
       })
       .catch(err => console.log(err));
-    //console.log(json_response);
-    
   };
 
   return (
-    <View style={{padding: 30}}>
-      <Logo />
-      <View style={{marginTop: 30}}>
-        {isError ? (
-          <Text
-            style={{
-              padding: 5,
-              backgroundColor: 'red',
-              color: 'white',
-              textAlign: 'center',
-              fontSize: 20,
-              margin: 25,
-            }}>
-            {message}
-          </Text>
-        ) : null}
-        <TextInput
-          label="Name"
-          mode="outlined"
-          placeholder="fullname"
-          errorText={name.error}
-          onChangeText={name => {
-            setError(false);
-            setName(name);
-          }}
-        />
-        <TextInput
-          label="Email"
-          mode="outlined"
-          placeholder="email"
-          onChangeText={email => {
-            setEmail(email);
-            setError(false);
-          }}
-        />
-        <TextInput
-          label="Password"
-          mode="outlined"
-          placeholder="email"
-          onChangeText={password => {
-            setError(false);
-            setPassword(password);
-          }}
-        />
-        <PVCButton
-          style={{marginTop: 30}}
-          mode="contained"
-          onPress={submitHandler}>
-          Register
-        </PVCButton>
+    <Background>
+      <View style={{padding: 30, flex: 1, justifyContent: 'flex-end'}}>
+        <Logo />
+        <Heading>Create Account</Heading>
+
+        <View style={{marginTop: 30}}>
+          {isError ? <Text style={styles.error}>{message}</Text> : null}
+
+          <TextInput
+            label="Name"
+            mode="outlined"
+            placeholder="fullname"
+            returnKeyType="next"
+            errorText={message}
+            onChangeText={name => {
+              setError(false);
+              setName(name);
+            }}
+          />
+          <TextInput
+            label="Email"
+            mode="outlined"
+            placeholder="email"
+            returnKeyType="next"
+            autoCapitalize="none"
+            autoCompleteType="email"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            onChangeText={email => {
+              setEmail(email);
+              setError(false);
+            }}
+          />
+          <TextInput
+            label="Password"
+            mode="outlined"
+            placeholder="email"
+            returnKeyType="done"
+            secureTextEntry
+            onChangeText={password => {
+              setError(false);
+              setPassword(password);
+            }}
+          />
+          <PVCButton
+            style={{marginTop: 30}}
+            mode="contained"
+            onPress={submitHandler}>
+            Register
+          </PVCButton>
+        </View>
       </View>
-    </View>
+    </Background>
   );
 }
+
+const styles = StyleSheet.create({
+  error: {
+    padding: 5,
+    backgroundColor: 'red',
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 25,
+  },
+});

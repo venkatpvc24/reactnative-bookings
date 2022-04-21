@@ -7,8 +7,7 @@ import PVCButton from '../components/Button';
 import Logo from '../components/Logo';
 import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
-
-// eslint-disable-next-line prettier/prettier
+import Background from '../components/Background';
 
 
 export default function Route(props)
@@ -23,18 +22,20 @@ export default function Route(props)
 function Welcome(props)
 {
   return (
-    <View style={{padding: 30, backgroundColor: '15eae9'}}>
+    <Background>
+    <View style={{padding: 30, backgroundColor: '15eae9', flex: 1, justifyContent: 'flex-end'}}>
       <Logo />
       <Heading heading="Training Center" />
       <Paragraph> Welcome back - {props.username} </Paragraph>
     </View>
+    </Background>
   );
 }
 
 function StartScreen(props) {
   return (
-
-    <View style={{padding: 30, backgroundColor: '15eae9'}}>
+    <Background>
+    <View style={{padding: 30, flex: 1, justifyContent: 'flex-end'}}>
       <Logo />
       <Heading heading="Training Center" />
       <Paragraph para="Pilates and Personnel Training" />
@@ -51,5 +52,6 @@ function StartScreen(props) {
         </PVCButton>
       </View>
     </View>
+    </Background>
   );
 }

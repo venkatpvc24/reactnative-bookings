@@ -9,6 +9,7 @@ import Logo from '../components/Logo';
 import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
 import TextInput from '../components/TextInput';
+import Background from '../components/Background';
 
 export function onLoggedIn(token) {}
 
@@ -28,7 +29,8 @@ export default function LoginScreen(props) {
 
 
   return (
-    <View style={{padding: 30}}>
+    <Background>
+    <View style={{padding: 30, flex: 1, justifyContent: 'flex-end'}}>
       <Logo />
       <Heading heading="Welcome back" />
       <View style={{marginTop: 30}}>
@@ -65,6 +67,7 @@ export default function LoginScreen(props) {
         </PVCButton>
       </View>
     </View>
+    </Background>
   );
 }
 
