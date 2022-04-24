@@ -9,12 +9,14 @@ import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
 import Background from '../components/Background';
 
+import User from './Userscreen';
+import ProfileScreen from './ProfileScreen';
 
 export default function Route(props)
 {
-  const isUserSignedIn = () => false;
+  const isUserSignedIn = false;
   return (
-    (!isUserSignedIn ? <Welcome /> : <StartScreen {...props}/>)
+    (isUserSignedIn ? <ProfileScreen /> : <StartScreen {...props}/>)
   );
 }
 

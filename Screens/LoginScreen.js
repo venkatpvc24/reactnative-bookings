@@ -11,12 +11,14 @@ import Paragraph from '../components/Paragraph';
 import TextInput from '../components/TextInput';
 import Background from '../components/Background';
 
-export function onLoggedIn(token) {}
+export function onLoggedIn(token, message) {
+
+}
 
 
 export default function LoginScreen(props) {
-  const [email, setEmail] = useState({value: '', error: ''});
-  const [password, setPassword] = useState({value: '', error: ''});
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
 
   const handleBlur = () => {
@@ -41,20 +43,20 @@ export default function LoginScreen(props) {
           autoCompleteType="email"
           textContentType="emailAddress"
           keyboardType="email-address"
-          errorText={email.error}
+          errorText={email}
           onChangeText={txt =>
-            setEmail({value: txt, error: ''})
+            setEmail(txt)
           }
           onBlur={handleBlur}
           style={styles.input}
           activeOutlineColor="red"
         />
-        <TextInput 
-          label="Password" 
-          returnKeyType="done" 
-          secureTextEntry 
+        <TextInput
+          label="Password"
+          returnKeyType="done"
+          secureTextEntry
           onChangeText={txt =>
-            setPassword({value: txt, error: ''})
+            setPassword(txt)
           }
           />
         <View style={{alignItems: 'flex-end'}}><Paragraph>Forgot password?</Paragraph></View>

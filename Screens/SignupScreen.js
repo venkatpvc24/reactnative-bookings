@@ -14,6 +14,7 @@ import TextInput from '../components/TextInput';
 import {onLoggedIn} from './LoginScreen';
 import Heading from '../components/Heading';
 import Background from '../components/Background';
+import {fetchData} from '../helpers/helpers';
 
 export default function SignupScreen(props) {
   const [email, setEmail] = useState('');
@@ -22,36 +23,11 @@ export default function SignupScreen(props) {
 
   const [isError, setError] = useState(false);
   const [message, setMessage] = useState('');
-
-  async function fetchData() {
-    console.log('registration starts');
-    const payload = {
-      email: email,
-      password: password,
-      name: name,
-    };
-
-    let response = await fetch('http://localhost:3000/signup', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    let status = response.status;
-    response = await response.json();
-
-    return new Promise((resolve, reject) => {
-      let json_response = {
-        status: status,
-        message: response.message,
-        token: response.token ? response.token : '',
-      };
-      resolve(json_response);
-    });
-  }
+  const payload = {
+    email: email,
+    password: password,
+    name: name,
+  };
 
   const submitHandler = e => {
     if (email === '' || name === '' || password === '') {
@@ -59,20 +35,25 @@ export default function SignupScreen(props) {
       setMessage('require all fields');
       return;
     }
-
-    fetchData()
+    let error = false;
+    fetchData(
+      'http://localhost:3000/signup',
+      {'Content-Type': 'application/json'},
+      payload,
+    )
       .then(res => {
         if (res.status !== 200) {
           console.log(res);
+          error = true;
           setError(true);
           setMessage(res.message);
         } else {
           setError(false);
           setMessage(res.message);
-          console.log(message);
-          onLoggedIn(res.token);
+          onLoggedIn(res.token, res.message);
         }
-        if (!isError) {
+        console.log(error);
+        if (!error) {
           props.navigation.navigate('Login');
         }
       })
